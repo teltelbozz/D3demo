@@ -3,7 +3,7 @@
 // https://qiita.com/alclimb/items/31d4360c74a8f8935256
 //
 
-import { d3 } from "https://d3js.org/d3.v5.min.js";
+import * as d3 from 'd3';
 
 // GeoJsonファイルを読み込み
 import geoJson from './assets/japan.geo.json';
