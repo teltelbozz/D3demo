@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    border: 2px solid rgb(186, 186, 189);
+    padding: 10px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  
+  .map-section {
+    flex: 3;
+    border: 1px solid rgb(186, 186, 189);
+    margin-right: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .control-panel {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .control-panel h1,
+  .control-panel p {
+    border: 0px solid rgb(186, 186, 189);
+    padding: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .dropdowns {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .dropdowns select {
+    flex: 1;
+    padding: 10px;
+  }
+  
+  .chart-section {
+    flex: 1;
+    border: 1px solid rgb(186, 186, 189);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 450px;
+    height: 580px;
+  }
+
+  .table-section {
+    flex: 1;
+    border: 1px solid rgb(186, 186, 189);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 450px;
+    height: 580px;
+  }
+
+.table-container {
+    margin-top: 20px;
+    font-size: 14px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2; /* ヘッダーの背景色 */
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2; /* 奇数行の背景色 */
+  }
