@@ -1,193 +1,143 @@
-<!doctype html>
-<html>
-  <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.12.0/d3.min.js" type="text/JavaScript"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/default.css">
-  </head>
-  <body>
-    <div class="container">
-        <div class="map">
-            <svg></svg>
-        </div>
-        <div class="contents-wrapper">
-            <div class="header">
-              <p>空き家情報</p></br>
-            </div>
-            <div class="form-group">
-              <h1><label id="location_name">名称</label></h1>
-            </div>
-            <div class="table-wrapper">
-              <table>
-                  <thead>
-                      <tr>
-                          <th rowspan="2"></th>
-                          <th rowspan="2"></th>
-                      </tr>
-                      <tr>
-                          <th>総数</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <!-- 総数 -->
-                      <tr class="row-header">
-                          <td rowspan="5">総数</td>
-                          <td>総数</td>
-                          <td id="total-1">10</td>
-                      </tr>
-                      <tr>
-                          <td>一戸建て</td>
-                          <td id="total-2">10</td>
-                      </tr>
-                      <tr>
-                          <td>長屋建て</td>
-                          <td id="total-3">10</td>
-                      </tr>
-                      <tr>
-                          <td>共同住宅</td>
-                          <td id="total-4">10</td>
-                      </tr>
-                      <tr>
-                          <td>その他</td>
-                          <td id="total-5">10</td>
-                      </tr>
-                  </tbody>
-              </table>
-            </div>
-          </div>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>空き家統計</title>
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.12.0/d3.min.js" type="text/JavaScript"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="GeoJapan.js"></script>
+  <script type="text/javascript" src="barchart.js"></script>
+
+  <script>
+    function displayRanking() {
+      document.getElementById('rankingDisp').style.display = "block";
+      document.getElementById('localdataDisp').style.display = "none";
+    }
+  </script>
+
+</head>
+<body onload="load_bar_chart(0)">
+  <div class="container">
+    <div class="map-section">
+      <p>
+        <svg></svg>
+      </p>
     </div>
-    <script>
-      var width = 600,
-          height = 600;
-      var scale = 1600;
-      var localName = "";
-
-      //d3.json("./japan.geojson", createMap);
-      d3.json("./assets/akiya_japan.geo.json", createMap);
-      
-      function createMap(japan) {
-        var aProjection = d3.geoMercator()
-            .center([ 136.0, 35.6 ])
-            .translate([width/2, height*2/3])
-            .scale(scale);
-        var geoPath = d3.geoPath().projection(aProjection);
-        var svg = d3.select("svg").attr("width",width).attr("height",height);
-    
-        //マップ描画
-        var map = svg.selectAll("path").data(japan.features)
-          .enter()
-          .append("path")
-            .attr("d", geoPath)
-            .attr(`stroke`, `#666`)
-            .attr(`stroke-width`, 0.25)
-            .attr(`fill`, `#2566CC`)
-            .attr(`fill-opacity`, (item) => {
-            // メモ
-            // item.properties.name_ja に都道府県名が入っている
-
-            // 透明度をランダムに指定する (0.0 - 1.0)
-              return Math.random();
-            })
-            /**
-            * 都道府県領域の MouseOver イベントハンドラ
-            */
-            .on(`mouseover`, function (item) {
-              // ラベル用のグループ
-              const group = svg.append(`g`).attr(`id`, `label-group`);
-
-              // 地図データから都道府県名を取得する
-              const label = item.properties.name_local;
-              
-              document.getElementById("location_name").innerText = item.properties.name_local;
-
-              document.getElementById("total-1").textContent = item.properties.name_ar;
-              document.getElementById("total-2").textContent = item.properties.name_bn;
-              document.getElementById("total-3").textContent = item.properties.name_de;
-              document.getElementById("total-4").textContent = item.properties.name_en;
-              document.getElementById("total-5").textContent = item.properties.name_es;
-
-              // 矩形を追加: テキストの枠
-              const rectElement = group
-                .append(`rect`)
-                .attr(`id`, `label-rect`)
-                .attr(`stroke`, `#666`)
-                .attr(`stroke-width`, 0.5)
-                .attr(`fill`, `#fff`);
-
-              // テキストを追加
-              const textElement = group
-                .append(`text`)
-                .attr(`id`, `label-text`)
-                .text(label);
-
-              // テキストのサイズから矩形のサイズを調整
-              const padding = { x: 5, y: 0 };
-              const textSize = textElement.node().getBBox();
-              rectElement
-                .attr(`x`, textSize.x - padding.x)
-                .attr(`y`, textSize.y - padding.y)
-                .attr(`width`, textSize.width + padding.x * 2)
-                .attr(`height`, textSize.height + padding.y * 2);
-
-              // マウス位置の都道府県領域を赤色に変更
-              d3.select(this).attr(`fill`, `#CC4C39`);
-              d3.select(this).attr(`stroke-width`, `1`);
-            })
-                        /**
-             * 都道府県領域の MouseMove イベントハンドラ
-             */
-            .on('mousemove', function (item) {
-              // テキストのサイズ情報を取得
-              const textSize = svg.select('#label-text').node().getBBox();
-
-              // マウス位置からラベルの位置を指定
-              const labelPos = {
-                x: d3.event.offsetX - textSize.width,
-                y: d3.event.offsetY - textSize.height,
-              };
-
-              // ラベルの位置を移動
-              svg
-                .select('#label-group')
-                .attr(`transform`, `translate(${labelPos.x}, ${labelPos.y})`);
-            })
-
-            /**
-             * 都道府県領域の MouseOut イベントハンドラ
-             */
-            .on(`mouseout`, function (item) {
-              // ラベルグループを削除
-              svg.select('#label-group').remove();
-
-              // マウス位置の都道府県領域を青色に戻す
-              d3.select(this).attr(`fill`, `#2566CC`);
-              d3.select(this).attr(`stroke-width`, `0.25`);
-            });
-
-        console.log(localName);
-
-        //ズームイベント設定    
-        var zoom = d3.zoom().on('zoom', function(){
-            aProjection.scale(scale * d3.event.transform.k);
-            map.attr('d', geoPath);
-        });
-        svg.call(zoom);
-
-        //ドラッグイベント設定
-        var drag = d3.drag().on('drag', function(){
-            var tl = aProjection.translate();
-            aProjection.translate([tl[0] + d3.event.dx, tl[1] + d3.event.dy]);
-            map.attr('d', geoPath);
-        });
-        map.call(drag);
-      }
-      console.log(localName);
-
-
-
-    </script>
-
-
-    
-  </body>
+    <div class="control-panel">
+      <div id = "rankingDisp" style="display: block">
+        <h1>ランキング</h1>
+        <p>賃貸・売却用及び二次的住宅を除く空き家</p>
+        <div class="dropdowns">
+          <select id="dataSelect1" onchange="load_bar_chart(1)">
+            <option value="default" selected disabled>住宅の建て方</option>
+            <option value="data1">総数</option>
+            <option value="data1-1">一戸建</option>
+            <option value="data1-2">長屋建</option>
+            <option value="data1-3">共同住宅</option>
+            <option value="data1-4">その他</option>
+          </select>
+          <select id="dataSelect2" onchange="load_bar_chart(2)">
+            <option value="default" selected disabled>建物の構造</option>
+            <option value="data2">総数</option>
+            <option value="data2-1">木造</option>
+            <option value="data2-2">非木造</option>
+          </select>
+          <select id="dataSelect3" onchange="load_bar_chart(3)">
+            <option value="default" selected disabled>腐敗・破損の有無</option>
+            <option value="data3">総数</option>
+            <option value="data3-1">腐敗・破損あり</option>
+            <option value="data3-2">腐敗・破損なし</option>
+          </select>
+        </div>
+        <div class="chart-section">
+          <div id="ChartArea"></div>
+        </div>
+      </div>
+      <div id = "localdataDisp" style="display: none">
+        <h1 id="localname_title">--</h1>
+        <p><button onclick="displayRanking()">ランキング表示へ</button></p>
+          <!-- 高さ調整用。非表示 -->
+          <div class="dropdowns" style="opacity: 0;">
+            <select id="dataSelect">
+            </select>
+          </div>
+        <div class="table-section">
+          <div id="data-table" class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>種類</th>
+                  <th>構造</th>
+                  <th>総数</th>
+                  <th>腐朽・損傷なし</th>
+                  <th>腐朽・損傷あり</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="2">一戸建</td>
+                  <td>木造</td>
+                  <td id="cell1-1">-</td>
+                  <td id="cell1-2">-</td>
+                  <td id="cell1-3">-</td>
+                </tr>
+                <tr>
+                  <td>非木造</td>
+                  <td id="cell1-4">-</td>
+                  <td id="cell1-5">-</td>
+                  <td id="cell1-6">-</td>
+                </tr>
+                <tr>
+                  <td rowspan="2">長屋建</td>
+                  <td>木造</td>
+                  <td id="cell2-1">-</td>
+                  <td id="cell2-2">-</td>
+                  <td id="cell2-3">-</td>
+                </tr>
+                <tr>
+                  <td>非木造</td>
+                  <td id="cell2-4">-</td>
+                  <td id="cell2-5">-</td>
+                  <td id="cell2-6">-</td>
+                </tr>
+                <tr>
+                  <td rowspan="2">共同住宅</td>
+                  <td>木造</td>
+                  <td id="cell3-1">-</td>
+                  <td id="cell3-2">-</td>
+                  <td id="cell3-3">-</td>
+                </tr>
+                <tr>
+                  <td>非木造</td>
+                  <td id="cell3-4">-</td>
+                  <td id="cell3-5">-</td>
+                  <td id="cell3-6">-</td>
+                </tr>
+                <tr>
+                  <td colspan="2">その他</td>
+                  <td id="cell4-1">-</td>
+                  <td id="cell4-2">-</td>
+                  <td id="cell4-3">-</td>
+                </tr>
+                <tr>
+                  <td colspan="2">合計</td>
+                  <td id="cell5-1">-</td>
+                  <td id="cell5-2">-</td>
+                  <td id="cell5-3">-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
