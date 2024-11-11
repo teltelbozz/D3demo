@@ -44,8 +44,6 @@ function createMap(japan) {
         // 地図データから都道府県名を取得する
         const label = item.properties.name_local;
 
-        displayData(label);
-
         // 矩形を追加: テキストの枠
         const rectElement = group
           .append(`rect`)
@@ -102,6 +100,13 @@ function createMap(japan) {
         // マウス位置の都道府県領域を青色に戻す
         d3.select(this).attr(`fill`, `#2566CC`);
         d3.select(this).attr(`stroke-width`, `0.25`);
+      })
+
+      .on(`click`, function (item) {
+        // 地図データから都道府県名を取得する
+        const label = item.properties.name_local;
+
+        displayData(label);
       });
 
   //ズームイベント設定    
