@@ -45,10 +45,22 @@
     display: flex;
     gap: 5px;
     margin-bottom: 10px;
+    justify-content: space-between; /* プルダウン間に隙間を作る */
   }
-  
+ 
+  .dropdown-group {
+  flex: 1; /* プルダウンの横幅を均等にする */
+  margin: 0 5px; /* プルダウン間に余白を追加 */
+  }
+
+  .dropdown-group label {
+  display: block; /* ラベルをブロック要素にする */
+  margin-bottom: 5px; /* ラベルとプルダウンの間に余白を追加 */
+  }
+
   .dropdowns select {
     flex: 1;
+    width: 100%; /* プルダウンの横幅を親要素に合わせて調整 */
     padding: 10px;
   }
   
@@ -97,3 +109,13 @@ th {
   tr:nth-child(even) {
     background-color: #f2f2f2; /* 奇数行の背景色 */
   }
+
+  #dataSelect1 {
+     height: 45px; /* 任意の高さに設定 */
+   }
+  #dataSelect2 {
+     height: 45px; /* 任意の高さに設定 */
+   }
+  #dataSelect3 {
+     height: 45px; /* 任意の高さに設定 */
+   }
