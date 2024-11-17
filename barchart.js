@@ -126,6 +126,31 @@ var svg = d3.select("#ChartArea").append("svg")
   .attr("y", function(d) { return y(d.locationName); }) // 最終的なy位置
   .attr("fill", "url(#barGradient)");  // グラデーションを適用
 
+  // バーの上に実際の値を表示
+  svg.selectAll(".bar-label")
+  .data(data)
+  .enter().append("text")
+  .attr("class", "bar-label")
+  .attr("x", function(d) { return x(d.emptyhouse) + 5; }) // 初期値を設定
+  .attr("y", function(d) { return y(d.locationName) + y.bandwidth() / 2; })
+  .attr("dy", ".35em")
+  .text(function(d) { return d3.format(",")(d.emptyhouse); })
+  .style("opacity", 0)
+  .transition()
+  .delay(500)
+  .duration(500)
+  .style("opacity", 1) 
+  .on("end", function() { // transitionの終了後に実行
+    // テキストの幅を取得
+    var textWidth = this.getBBox().width;
+    // バーの右端の座標
+    var barRightX = x(d3.select(this).datum().emptyhouse); 
+
+    // テキストがcanvas領域を超える場合は、バーの右端から左にずらす
+    d3.select(this).attr("x", Math.min(barRightX + 5, width - textWidth - 5));
+  });
+
+
   // add the x Axis
   svg.append("g")
       .attr("transform", "translate(0," + height + ")")
