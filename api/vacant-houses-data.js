@@ -8,6 +8,10 @@ const pool = new Pool({
 });
 
 export default async function handler(req, res) {
+        // CORSヘッダーを設定
+        res.setHeader('Access-Control-Allow-Origin', '*'); // 任意のオリジンを許可
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   try {
     const { houseType, buildingType, decayStatus } = req.query;
 
