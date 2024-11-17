@@ -73,7 +73,7 @@
       console.log(decayStatus);
 
       // パラメータをエンコードしてAPIに送信
-      const apiEndpoint = `http://https://d3demo.vercel.app/api/vacant-houses-data?houseType=${encodeURIComponent(houseType)}&buildingType=${encodeURIComponent(buildingType)}&decayStatus=${encodeURIComponent(decayStatus)}`;
+      const apiEndpoint = `https://d3demo.vercel.app/api/vacant-houses-data?houseType=${encodeURIComponent(houseType)}&buildingType=${encodeURIComponent(buildingType)}&decayStatus=${encodeURIComponent(decayStatus)}`;
 
       fetch(apiEndpoint)
         .then(response => {
