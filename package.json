@@ -2,6 +2,6 @@
   "name": "d3-map",
   "version": "0.0.1",
   "dependencies": {
-    "d3": "^5.15.0",
+    "d3": "^5.15.0"
   }
 }
