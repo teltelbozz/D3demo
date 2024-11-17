@@ -146,5 +146,78 @@
     </div>
 
   </div>
+    <h1>空き家データ（都道府県別）</h1>
+
+  <label>
+    住宅建て方:
+    <input type="text" id="houseType" placeholder="例: 総数">
+  </label>
+  <label>
+    建物構造:
+    <input type="text" id="buildingType" placeholder="例: 木造">
+  </label>
+  <label>
+    腐朽破損有無:
+    <input type="text" id="decayStatus" placeholder="例: 腐敗・破損あり">
+  </label>
+  <button id="fetchData">データを取得</button>
+
+  <table id="resultTable" style="margin-top: 20px; display: none;">
+    <thead>
+      <tr>
+        <th>都道府県</th>
+        <th>空き家数</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    document.getElementById('fetchData').addEventListener('click', () => {
+      const houseType = document.getElementById('houseType').value;
+      const buildingType = document.getElementById('buildingType').value;
+      const decayStatus = document.getElementById('decayStatus').value;
+
+      // パラメータをエンコードしてAPIに送信
+      const apiEndpoint = `https://your-project-name.vercel.app/api/vacant-houses-data?houseType=${encodeURIComponent(houseType)}&buildingType=${encodeURIComponent(buildingType)}&decayStatus=${encodeURIComponent(decayStatus)}`;
+
+      fetch(apiEndpoint)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('データの取得に失敗しました');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('取得したデータ:', data);
+          displayData(data);
+        })
+        .catch(error => {
+          console.error('エラー:', error);
+        });
+    });
+
+    function displayData(data) {
+      const table = document.getElementById('resultTable');
+      const tbody = table.querySelector('tbody');
+
+      tbody.innerHTML = ''; // テーブルをクリア
+
+      data.forEach(item => {
+        const row = document.createElement('tr');
+        const locationCell = document.createElement('td');
+        const countCell = document.createElement('td');
+
+        locationCell.textContent = item.locationName;
+        countCell.textContent = item.emptyhouse;
+
+        row.appendChild(locationCell);
+        row.appendChild(countCell);
+        tbody.appendChild(row);
+      });
+
+      table.style.display = 'table';
+    }
+  </script>
 </body>
 </html>
