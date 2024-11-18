@@ -155,10 +155,6 @@ function displayData(localName) {
   document.getElementById('cell3-5').textContent = "-"; 
   document.getElementById('cell3-6').textContent = "-"; 
 
-  document.getElementById('cell4-1').textContent = "-"; 
-  document.getElementById('cell4-2').textContent = "-"; 
-  document.getElementById('cell4-3').textContent = "-"; 
-
   document.getElementById('cell5-1').textContent = "-"; 
   document.getElementById('cell5-2').textContent = "-"; 
   document.getElementById('cell5-3').textContent = "-"; 
@@ -192,10 +188,6 @@ function displayData(localName) {
     document.getElementById('cell3-4').textContent = data[localName].共同住宅.非木造.総数; 
     document.getElementById('cell3-5').textContent = data[localName].共同住宅.非木造.腐朽・破損なし; 
     document.getElementById('cell3-6').textContent = data[localName].共同住宅.非木造.腐朽・破損あり; 
-
-    //document.getElementById('cell4-1').textContent = data[localName].その他.総数; 
-    //document.getElementById('cell4-2').textContent = data[localName].その他.腐朽・破損なし; 
-    //document.getElementById('cell4-3').textContent = data[localName].その他.腐朽・破損あり; 
 
     document.getElementById('cell5-1').textContent = data[localName].合計.総数; 
     document.getElementById('cell5-2').textContent = data[localName].合計.腐朽・破損なし; 
