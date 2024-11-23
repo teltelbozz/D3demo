@@ -2,20 +2,18 @@
 //	日本地図を書く処理　by teltel
 // ------------------------------------------------------------------
 
-var width = 800,
-    height = 800;
-var scale = 1600;
+var width = 300,
+    height = 600;
+var scale = 600;
 var localName = "";
 
-//d3.json("./japan.geojson", createMap);
 d3.json("./assets/japan.geo.json", createMap);
 
 function createMap(japan) {
   var aProjection = d3.geoMercator()
-      //.center([ 136.0, 35.6 ])
       .center([ 136.0, 37.9 ])
       .translate([width/2, height/2])
-      .scale(scale);
+      .scale(scale*1.5);
   var geoPath = d3.geoPath().projection(aProjection);
   
   //SVG（地図と棒グラフ）のレスポンシブ対応
