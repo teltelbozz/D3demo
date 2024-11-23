@@ -4,62 +4,47 @@
 
 function load_bar_chart (selector)
 {
-    var file_json="assets/data1.json";
-    var selectedValue = "data1";
-    var maxdomain = 470000
+    var maxdomain = 100000
 
-    console.log(selector);
+    //document.getElementById('fetchData').addEventListener('click', () => {
+      const houseType = document.getElementById('houseType').value;
+      const buildingType = document.getElementById('buildingType').value;
+      const decayStatus = document.getElementById('decayStatus').value;
 
-  //他のプルダウンは下に戻す
-    switch (selector){
-      case 1:
-        selectedValue = document.getElementById('dataSelect1').value;
-        document.getElementById('dataSelect1').style.backgroundColor = 'lightblue';
-        document.getElementById('dataSelect2').style.backgroundColor = 'white';
-        document.getElementById('dataSelect3').style.backgroundColor = 'white';
-        document.getElementById("dataSelect2").value = "default";
-        document.getElementById("dataSelect3").value = "default";
-        maxdomain = 470000;
-        break;
-      case 2:
-        selectedValue = document.getElementById('dataSelect2').value;
-        document.getElementById('dataSelect1').style.backgroundColor = 'white';
-        document.getElementById('dataSelect2').style.backgroundColor = 'lightblue';
-        document.getElementById('dataSelect3').style.backgroundColor = 'white';
-        document.getElementById("dataSelect1").value = "default";
-        document.getElementById("dataSelect3").value = "default";
-        maxdomain = 470000;
-        break;
-      case 3:
-        selectedValue = document.getElementById('dataSelect3').value;
-        document.getElementById('dataSelect1').style.backgroundColor = 'white';
-        document.getElementById('dataSelect2').style.backgroundColor = 'white';
-        document.getElementById('dataSelect3').style.backgroundColor = 'lightblue';
-        document.getElementById("dataSelect1").value = "default";
-        document.getElementById("dataSelect2").value = "default";
-        maxdomain = 240000;
-        break;
-      default:
-    }
+      console.log(houseType);
+      console.log(buildingType);
+      console.log(decayStatus);
 
-    file_json = "assets/" + selectedValue +".json"
-    console.log(file_json);
+      // パラメータをエンコードしてAPIに送信
+      const apiEndpoint = `https://d3demo.vercel.app/api/vacant-houses-data?houseType=${encodeURIComponent(houseType)}&buildingType=${encodeURIComponent(buildingType)}&decayStatus=${encodeURIComponent(decayStatus)}`;
 
-    jQuery.getJSON(file_json,function (data_org)
-	{
-        write_bar_chart(data_org,maxdomain)
-	})
+      fetch(apiEndpoint)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('データの取得に失敗しました');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('取得したデータ:', data.slice(-15));
+          //上位15位まで表示
+          var datas = data.slice(-15);
+          update_geomap(datas);
+          write_bar_chart(datas,maxdomain)
+        })
+        .catch(error => {
+          console.error('エラー:', error);
+        });
+  //  });
+
 }
 
 // ------------------------------------------------------------------
-function write_bar_chart (data_org,maxdomain)
+function write_bar_chart (data,maxdomain)
 {
 
 // 既存のSVG要素を削除
 d3.select("#ChartArea").select("svg").remove();
-
-//上位15位まで表示
-const data = data_org.slice(-15);
 
 // set the dimensions and margins of the graph
 const margin = {top: 20, right: 30, bottom: 30, left: 60}
