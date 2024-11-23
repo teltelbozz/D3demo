@@ -17,7 +17,13 @@ function createMap(japan) {
       .translate([width/2, height/2])
       .scale(scale);
   var geoPath = d3.geoPath().projection(aProjection);
-  var svg = d3.select("svg").attr("width",width).attr("height",height);
+  
+  //SVG（地図と棒グラフ）のレスポンシブ対応
+  var svg = d3.select("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`) // ビューポートを設定
+  .attr("preserveAspectRatio", "xMidYMid meet") // 比率を維持
+  .style("width", "100%") // 幅をコンテナにフィット
+  .style("height", "auto"); // 高さを自動調整
 
   //マップ描画
   var map = svg.selectAll("path").data(japan.features)
