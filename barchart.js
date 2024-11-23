@@ -62,7 +62,7 @@ d3.select("#ChartArea").select("svg").remove();
 const data = data_org.slice(-15);
 
 // set the dimensions and margins of the graph
-const margin = {top: 20, right: 20, bottom: 30, left: 40}
+const margin = {top: 20, right: 30, bottom: 30, left: 60}
 const width = 450 - margin.left - margin.right
 const height = 600 - margin.top - margin.bottom
 

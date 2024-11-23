@@ -2,8 +2,8 @@
 //	日本地図を書く処理　by teltel
 // ------------------------------------------------------------------
 
-var width = 600,
-    height = 600;
+var width = 800,
+    height = 800;
 var scale = 1600;
 var localName = "";
 
