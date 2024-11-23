@@ -38,11 +38,14 @@
     flex: 3;
     border: 1px solid rgb(186, 186, 189);
     margin-right: 10px;
+    margin-left: 20px;
     padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    height: 775px; /* 固定高さ */
+    width: 100%;
   }
   
   .control-panel {
@@ -148,6 +151,7 @@ th {
   .map-section, .control-panel {
     width: 100%; /* セクション幅を全幅に設定 */
     margin-right: 0; /* サイドの余白をリセット */
+    margin-left: 0; /* サイドの余白をリセット */
   }
   .chart-section, .table-section {
     width: 100%; /* 全幅に設定 */
