@@ -7,6 +7,7 @@ var width = 300,
 var scale = 600;
 var localName = "";
 
+
 d3.json("./assets/japan.geo.json", createMap);
 
 function createMap(japan) {
@@ -24,7 +25,8 @@ function createMap(japan) {
   .style("height", "auto"); // 高さを自動調整
 
   //マップ描画
-  var map = svg.selectAll("path").data(japan.features)
+  var map = svg.selectAll("path")
+    .data(japan.features.filter(d => d != null)) // nullデータを除外
     .enter()
     .append("path")
       .attr("d", geoPath)
@@ -127,6 +129,8 @@ function createMap(japan) {
       map.attr('d', geoPath);
   });
   map.call(drag);
+
+
 }
 
 // Display data in the table based on the clicked prefecture
@@ -209,3 +213,33 @@ function displayData(localName) {
     document.getElementById('localdataDisp').style.display = "block";
 
   }
+
+  
+  function update_geomap(datas) {
+    // ランキングにある都道府県名を取得（配列内の順序がランキングの順位）
+    const rankedLocations = datas.map(data => data.locationName);
+  
+    // 色のスケールを作成（濃い青 -> 薄い青）
+    const colorScale = d3.scaleLinear()
+      .domain([0, rankedLocations.length - 1]) // 順位範囲 (0が最上位、length-1が最下位)
+      .range(["#003f5c", "#c8d6e5"]); // 濃い色 -> 薄い色の範囲を指定
+  
+    // すべての都道府県の色を更新
+    d3.selectAll("path")
+      .transition()
+      .duration(1000)
+      .attr("fill", function (d) {
+        // データが不正なら白
+        if (!d || !d.properties) return "#FFFFFF";
+  
+        // 現在の都道府県の名前
+        const locationName = d.properties.name_local;
+  
+        // ランキング内での位置を取得（見つからなければ -1）
+        const rankIndex = rankedLocations.indexOf(locationName);
+  
+        // ランキングにある場合はスケールで色を設定、ない場合は白
+        return rankIndex >= 0 ? colorScale(rankIndex) : "#FFFFFF";
+      });
+  }
+
