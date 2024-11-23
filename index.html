@@ -49,14 +49,14 @@
                     >住宅の建て方</label
                   >
                   <select
-                    id="dataSelect1"
+                    id="houseType"
                     class="form-control"
                     onchange="load_bar_chart(1)"
                   >
-                    <option value="data1" selected>総数</option>
-                    <option value="data1-1">一戸建</option>
-                    <option value="data1-2">長屋建</option>
-                    <option value="data1-3">共同住宅</option>
+                  <option value="一戸建">一戸建</option>
+                  <option value="長屋建">長屋建</option>
+                  <option value="共同住宅">共同住宅</option>
+                  <option value="その他">その他</option>
                   </select>
                 </div>
                 <div class="col-md-4 dropdown-group">
@@ -64,13 +64,12 @@
                     >建物の構造</label
                   >
                   <select
-                    id="dataSelect2"
+                    id="buildingType"
                     class="form-control"
                     onchange="load_bar_chart(2)"
                   >
-                    <option value="data2" selected>総数</option>
-                    <option value="data2-1">木造</option>
-                    <option value="data2-2">非木造</option>
+                  <option value="木造">木造</option>
+                  <option value="非木造">非木造</option>
                   </select>
                 </div>
                 <div class="col-md-4 dropdown-group">
@@ -78,13 +77,13 @@
                     >腐敗・破損の有無</label
                   >
                   <select
-                    id="dataSelect3"
+                    id="decayStatus"
                     class="form-control"
                     onchange="load_bar_chart(3)"
                   >
-                    <option value="data3" selected>総数</option>
-                    <option value="data3-1">腐敗・破損あり</option>
-                    <option value="data3-2">腐敗・損傷なし</option>
+                  <option value="総数">総数</option>
+                  <option value="腐朽・破損あり">腐朽・破損あり</option>
+                  <option value="腐朽・破損なし">腐朽・破損なし</option>
                   </select>
                 </div>
               </div>
