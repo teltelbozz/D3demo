@@ -150,6 +150,7 @@ th {
   }
   .map-section, .control-panel {
     width: 100%; /* セクション幅を全幅に設定 */
+    margin-top: 10px; /* サイドの余白をリセット */
     margin-right: 0; /* サイドの余白をリセット */
     margin-left: 0; /* サイドの余白をリセット */
   }
