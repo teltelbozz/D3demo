@@ -1,137 +1,114 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-  }
-  @media (max-width: 768px) {
-    body {
-      font-size: 14px; /* 小画面向けにフォントサイズを縮小 */
-    }
-  }
+/* 共通設定 */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-  /* ボタンのサイズ調整 */
-  button {
-    padding: 10px 20px; /* タッチしやすいサイズに調整 */
-    font-size: 14px;
-  }
-  @media (max-width: 768px) {
-    button {
-      font-size: 12px; /* 小画面向けに縮小 */
-      padding: 8px 16px;
-    }
-  }
+.container {
+  max-width: 1200px; /* コンテナの最大幅 */
+  margin: 0 auto;
+  padding: 15px;
+}
 
-  .container {
-    display: flex;
-    border: 2px solid rgb(186, 186, 189);
-    padding: 10px;
-    max-width: 1300px;
-    margin: 0 auto;
-  }
-  
-  .map-section {
-    flex: 3;
-    border: 1px solid rgb(186, 186, 189);
-    margin-right: 10px;
-    margin-left: 20px;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 775px; /* 固定高さ */
-    width: 100%;
-  }
-  
-  .control-panel {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .control-panel h1,
-  .control-panel p {
-    border: 0px solid rgb(186, 186, 189);
-    padding: 5px;
-    margin-bottom: 10px;
-    text-align: center;
-  }
+.row {
+  display: flex;
+  flex-wrap: wrap; /* レスポンシブ対応 */
+  justify-content: space-between;
+}
 
-  .dropdowns {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 10px;
-    justify-content: space-between; /* プルダウン間に隙間を作る */
-  }
- 
-  .dropdown-group {
-  flex: 1; /* プルダウンの横幅を均等にする */
-  margin: 0 5px; /* プルダウン間に余白を追加 */
-  }
+/* 各セクション共通スタイル */
+.section {
+  border: 1px solid #ccc;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
-  .dropdown-group label {
-  display: block; /* ラベルをブロック要素にする */
-  margin-bottom: 5px; /* ラベルとプルダウンの間に余白を追加 */
-  }
+/* ランキングセクション */
+.control-panel {
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box; /* パディング込みの幅を設定 */
+}
 
-  .dropdowns select {
-    flex: 1;
-    width: 100%; /* プルダウンの横幅を親要素に合わせて調整 */
-    padding: 10px;
-  }
-  
-  .chart-section {
-    flex: 1;
-    border: 1px solid rgb(186, 186, 189);
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 450px;
-    height: 580px;
-  }
+.chart-section {
+  width: 100%;
+  height: auto; /* レスポンシブ対応 */
+}
 
-  .table-section {
-    flex: 1;
-    border: 1px solid rgb(186, 186, 189);
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 450px;
-    height: 580px;
-  }
+#ChartArea {
+  width: 100%;
+  height: auto;
+}
 
+.dropdown-group {
+  display: flex; /* ラベルとプルダウンを横並びに管理 */
+  flex-direction: column; /* 上下に配置 */
+  justify-content: space-between; /* 均等配置 */
+  align-items: flex-start; /* 左揃え */
+  min-height: 80px; /* 最小の高さを設定 */
+}
+
+.dropdown-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  white-space: nowrap; /* ラベルが改行しないようにする */
+  overflow: hidden;
+  text-overflow: ellipsis; /* ラベルが長い場合に省略記号を追加 */
+}
+
+.dropdown-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* 地図セクション */
+
+.map-container {
+  padding: 0 20px; /* 左右に20pxの余白を追加 */
+  box-sizing: border-box; /* パディングを含めた幅にする */
+}
+
+.map-section {
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  aspect-ratio: 16 / 9; /* 16:9 の比率を維持 */
+}
+
+.map-section svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* テーブルセクション */
 .table-container {
-    margin-top: 20px;
-    font-size: 14px;
-    overflow-x: auto; /* スマホ考慮 横スクロールを有効化 */
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
+  overflow-x: auto;
+  margin-top: 20px;
 }
 
-th {
-    background-color: #f2f2f2; /* ヘッダーの背景色 */
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f2f2f2; /* 奇数行の背景色 */
-  }
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
+.table-container th,
+.table-container td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.table-container th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
 /* 共通化して高さを調整 */
 #dataSelect1, #dataSelect2, #dataSelect3 {
   height: 45px;
@@ -141,22 +118,55 @@ th {
   #dataSelect1, #dataSelect2, #dataSelect3 {
     font-size: 12px; /* 小画面向けに文字サイズを縮小 */
   }
+
+
+  .dropdowns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* プルダウン間の余白 */
+    margin-bottom: 20px;
+  }
+  
+  .dropdown-group {
+    flex: 1;
+    min-width: 150px; /* 最小幅を指定 */
+  }
+  
+  .dropdown-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+/* メディアクエリ: 画面幅が450px以下の場合 */
+@media (max-width: 450px) {
+  .row {
+    flex-direction: column; /* セクションを縦並びに */
+  }
+
+  .chart-section,
+  .map-section {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .dropdown-group select {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .table-container table {
+    font-size: 14px;
+  }
 }
 
-   /* 追加: レスポンシブ対応 画面幅が768px以下の場合、セクションを縦並びに変更 */
+
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
+  .dropdowns {
+    flex-direction: column; /* 縦並び */
   }
-  .map-section, .control-panel {
-    width: 100%; /* セクション幅を全幅に設定 */
-    margin-top: 10px; /* サイドの余白をリセット */
-    margin-right: 0; /* サイドの余白をリセット */
-    margin-left: 0; /* サイドの余白をリセット */
-  }
-  .chart-section, .table-section {
-    width: 100%; /* 全幅に設定 */
-    height: auto; /* 高さを自動調整 */
-    padding: 10px; /* 内側に余白を追加 */
+
+  .dropdown-group {
+    width: 100%;
   }
 }
