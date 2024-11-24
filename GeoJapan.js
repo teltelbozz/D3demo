@@ -38,7 +38,7 @@ function createMap(japan) {
       // item.properties.name_ja に都道府県名が入っている
 
       // 透明度をランダムに指定する (0.0 - 1.0)
-        return Math.random();
+        //return Math.random();
       })
       /**
       * 都道府県領域の MouseOver イベントハンドラ
@@ -73,7 +73,9 @@ function createMap(japan) {
           .attr(`width`, textSize.width + padding.x * 2)
           .attr(`height`, textSize.height + padding.y * 2);
 
-        // マウス位置の都道府県領域を赤色に変更
+        // マウス位置の都道府県領域の元の色を保存し、赤色に変更
+        const currentColor = d3.select(this).attr('fill');
+        d3.select(this).attr('data-original-fill', currentColor); // 元の色をカスタム属性として保存
         d3.select(this).attr(`fill`, `#CC4C39`);
         d3.select(this).attr(`stroke-width`, `1`);
       })
@@ -103,8 +105,11 @@ function createMap(japan) {
         // ラベルグループを削除
         svg.select('#label-group').remove();
 
-        // マウス位置の都道府県領域を青色に戻す
-        d3.select(this).attr(`fill`, `#2566CC`);
+        // 保存しておいた元の色を取得
+        const originalColor = d3.select(this).attr('data-original-fill');
+
+        // 元の色に戻す
+        d3.select(this).attr('fill', originalColor);
         d3.select(this).attr(`stroke-width`, `0.25`);
       })
 
@@ -214,16 +219,25 @@ function displayData(localName) {
 
   }
 
-  
+
   function update_geomap(datas) {
+      // すべての都道府県の色を更新
+    d3.selectAll("path")
+    .attr("fill", "#FFFFFF"); 
+
     // ランキングにある都道府県名を取得（配列内の順序がランキングの順位）
     const rankedLocations = datas.map(data => data.locationName);
+
+    console.log(rankedLocations);
   
+    /*グラデーション作れるらしいが、うまくいかなかったので諦め
     // 色のスケールを作成（濃い青 -> 薄い青）
     const colorScale = d3.scaleLinear()
-      .domain([0, rankedLocations.length - 1]) // 順位範囲 (0が最上位、length-1が最下位)
-      .range(["#003f5c", "#c8d6e5"]); // 濃い色 -> 薄い色の範囲を指定
-  
+      .domain([rankedLocations.length-1,0]) // 順位範囲 (0が最下位、length-1が最上位)
+      //.range(["#dc143c", "#f08080"]); // 濃い色 -> 薄い色の範囲を指定
+      .range(['#2566cc', '#3370cf', '#427ad3', '#5185d6', '#608fda', '#6f99dd', '#7ea4e1', '#8daee5', '#9cb8e8', '#abc3ec', '#bacdef', '#c9d7f3', '#d8e2f6', '#e7ecfa', '#f6f7fe']); // 濃い色 -> 薄い色の範囲を指定
+    */
+
     // すべての都道府県の色を更新
     d3.selectAll("path")
       .transition()
@@ -237,9 +251,24 @@ function displayData(localName) {
   
         // ランキング内での位置を取得（見つからなければ -1）
         const rankIndex = rankedLocations.indexOf(locationName);
+
+        // ランキングにある場合は青、ない場合は白
+        return rankIndex >= 0 ? "#2566cc" : "#FFFFFF";
+      })
+      .attr(`fill-opacity`,function (d) {
+        // データが不正なら白
+        if (!d || !d.properties) return "#FFFFFF";
   
-        // ランキングにある場合はスケールで色を設定、ない場合は白
-        return rankIndex >= 0 ? colorScale(rankIndex) : "#FFFFFF";
+        // 現在の都道府県の名前
+        const locationName = d.properties.name_local;
+  
+        // ランキング内での位置を取得（見つからなければ -1）
+        const rankIndex = rankedLocations.indexOf(locationName);
+       
+        // 透過率を計算
+        return rankIndex >= 0 ? rankIndex/(rankedLocations.length-1) : 1;
+
       });
+    
   }
 
