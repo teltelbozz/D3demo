@@ -29,6 +29,10 @@ export default async function handler(req, res) {
             ? "'木造','鉄骨造','鉄筋コンクリート造'" // 仮の例: 建物構造のすべてのオプション
             : `$2`;
 
+        const decayStatuses = decayStatus === "(すべて)"
+            ? "'腐朽あり','腐朽なし'" // 仮の例: 腐朽破損のすべてのオプション
+            : `$3`;
+
 
     // クエリを実行して集計データを取得
     const query = `
