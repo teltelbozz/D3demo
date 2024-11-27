@@ -20,6 +20,16 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required query parameters' });
     }
 
+           // "すべて" の処理
+        const houseTypes = houseType === "（すべて）"
+            ? "'一戸建','長屋建','共同住宅','その他'" // すべてのオプション
+            : `$1`; // プレースホルダを使用
+
+        const buildingTypes = buildingType === "（すべて）"
+            ? "'木造','鉄骨造','鉄筋コンクリート造'" // 仮の例: 建物構造のすべてのオプション
+            : `$2`;
+
+
     // クエリを実行して集計データを取得
     const query = `
       SELECT 
