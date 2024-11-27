@@ -50,8 +50,9 @@ export default async function handler(req, res) {
 
      console.log(query)
 
-    const values = [houseType, buildingType, decayStatus];
-    const result = await pool.query(query, values);
+        const values = houseType === "(すべて)" || buildingType === "(すべて)" || decayStatus === "(すべて)"
+            ? [] // すべてが選択された場合は値は不要
+            : [houseType, buildingType, decayStatus];
 
     // 必要な形式にデータを整形
     const formattedResult = result.rows.map(row => ({
