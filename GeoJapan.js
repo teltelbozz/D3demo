@@ -241,6 +241,19 @@ function displayData(localName) {
     // すべての都道府県の色を更新
     d3.selectAll("path")
       .transition()
+      .delay(function (d) {
+        // データが不正なら遅延なし
+        if (!d || !d.properties) return 0;
+    
+        // 現在の都道府県の名前
+        const locationName = d.properties.name_local;
+    
+        // ランキング内での位置を取得（見つからなければ 0）
+        const rankIndex = rankedLocations.indexOf(locationName);
+    
+        // ランキングに基づいて遅延を設定
+        return rankIndex >= 0 ? rankIndex * 150 : 0; // ランク順に200ms間隔で遅延
+      })
       .duration(1000)
       .attr("fill", function (d) {
         // データが不正なら白
