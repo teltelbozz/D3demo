@@ -252,7 +252,7 @@ function displayData(localName) {
         const rankIndex = rankedLocations.indexOf(locationName);
     
         // ランキングに基づいて遅延を設定
-        return rankIndex >= 0 ? rankIndex * 150 : 0; // ランク順に200ms間隔で遅延
+        return rankIndex >= 0 ? rankIndex * 100 : 0; // ランク順に10ms間隔で遅延
       })
       .duration(1000)
       .attr("fill", function (d) {
