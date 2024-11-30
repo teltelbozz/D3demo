@@ -4,16 +4,12 @@
 
 function load_bar_chart (selector)
 {
-    var maxdomain = 300000
+    var maxdomain = 250000
 
     //document.getElementById('fetchData').addEventListener('click', () => {
       let houseType = document.getElementById('houseType').value;
       let buildingType = document.getElementById('buildingType').value;
       let decayStatus = document.getElementById('decayStatus').value;
-
-      if(houseType === "（すべて）" || buildingType === "（すべて）"){
-        maxdomain = 300000
-      }
 
       // パラメータをエンコードしてAPIに送信
       const apiEndpoint = `https://d3demo.vercel.app/api/vacant-houses-data?houseType=${encodeURIComponent(houseType)}&buildingType=${encodeURIComponent(buildingType)}&decayStatus=${encodeURIComponent(decayStatus)}`;
@@ -49,7 +45,7 @@ d3.select("#ChartArea").select("svg").remove();
 // set the dimensions and margins of the graph
 const margin = {top: 20, right: 30, bottom: 30, left: 60}
 const width = 450 - margin.left - margin.right
-const height = 600 - margin.top - margin.bottom
+const height = 550 - margin.top - margin.bottom
 
 // set the ranges
 const y = d3.scaleBand()
@@ -109,7 +105,9 @@ var svg = d3.select("#ChartArea").append("svg")
   .attr("width", function(d) { return x(d.emptyhouse); })  // 横幅
   .attr("height", y.bandwidth())  // 最終的な高さを設定
   .attr("y", function(d) { return y(d.locationName); }) // 最終的なy位置
-  .attr("fill", "url(#barGradient)");  // グラデーションを適用
+  .attr("fill", "url(#barGradient)")  // グラデーションを適用
+  .delay(function(d, i) { return i * 150; })  // 各棒グラフの開始を遅らせる（200msずつ）
+  .attr("width", function(d) { return x(d.emptyhouse); });  // 横幅を設定
 
   // バーの上に実際の値を表示
   svg.selectAll(".bar-label")
@@ -122,7 +120,7 @@ var svg = d3.select("#ChartArea").append("svg")
   .text(function(d) { return d3.format(",")(d.emptyhouse); })
   .style("opacity", 0)
   .transition()
-  .delay(500)
+  .delay(2250)//アニメーションにあわせて変更 by teltel
   .duration(500)
   .style("opacity", 1) 
   .on("end", function() { // transitionの終了後に実行
