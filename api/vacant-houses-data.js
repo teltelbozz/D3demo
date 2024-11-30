@@ -30,6 +30,8 @@ export default async function handler(req, res) {
        ? ['木造', '非木造'] // 仮の例
        : [buildingType];
 
+  　const decayStatuses = [decayStatus];
+
    // クエリの構築
    const query = `
        SELECT 
@@ -37,9 +39,9 @@ export default async function handler(req, res) {
            SUM(空き家数) AS emptyhouse
        FROM vacant_houses
        WHERE 
-           腐朽破損有無 = ANY($3) AND
-           住宅建て方 = ANY($1) AND 
-           建物構造 = ANY($2)
+           腐朽破損有無 = ANY($1) AND
+           住宅建て方 = ANY($2) AND 
+           建物構造 = ANY($3)
        GROUP BY 地域
        ORDER BY emptyhouse ASC;
    `;
@@ -75,7 +77,7 @@ export default async function handler(req, res) {
   */
 
 console.log(query)
-    const values = [houseType, buildingType, decayStatus];
+    const values = [decayStatuses, houseTypes, buildingTypes];
     const result = await pool.query(query, values);
     console.log(values);
 
