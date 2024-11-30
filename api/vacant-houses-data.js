@@ -50,7 +50,8 @@ export default async function handler(req, res) {
 
 console.log(query)
     const values = [houseType, buildingType, decayStatus];
-    const result = await pool.query(query, values);
+    //const result = await pool.query(query, values);
+    const result = await pool.query(query);
 
     // 必要な形式にデータを整形
     const formattedResult = result.rows.map(row => ({
