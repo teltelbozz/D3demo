@@ -21,17 +21,32 @@ export default async function handler(req, res) {
     }
 
     // "すべて" の処理
-    const houseTypes = houseType === "（すべて）"
-        ? "'一戸建','長屋建','共同住宅','その他'" // すべてのオプション
-        : `$1`; // プレースホルダを使用
+       // 選択肢が "(すべて)" の場合、全ての項目を配列として処理
+    const houseTypes = houseType === "(すべて)"
+       ? ['一戸建', '長屋建', '共同住宅', 'その他']
+       : [houseType];
 
-    const buildingTypes = buildingType === "（すべて）"
-        ? "'木造','鉄骨造','鉄筋コンクリート造'" // 仮の例: 建物構造のすべてのオプション
-        : `$2`;
+   const buildingTypes = buildingType === "(すべて)"
+       ? ['木造', '鉄骨造', '鉄筋コンクリート造'] // 仮の例
+       : [buildingType];
 
-    const decayStatuses = decayStatus === "（すべて）"
-        ? "'腐朽あり','腐朽なし'" // 仮の例: 腐朽破損のすべてのオプション
-        : `$3`;
+   const decayStatuses = decayStatus === "(すべて)"
+       ? ['腐朽あり', '腐朽なし'] // 仮の例
+       : [decayStatus];
+
+   // クエリの構築
+   const query = `
+       SELECT 
+           地域 AS locationName,
+           SUM(空き家数) AS emptyhouse
+       FROM vacant_houses
+       WHERE 
+           腐朽破損有無 = ANY($1) AND
+           住宅建て方 = ANY($2) AND 
+           建物構造 = ANY($3)
+       GROUP BY 地域
+       ORDER BY emptyhouse ASC;
+   `;
 
     // クエリを実行して集計データを取得
     /*
@@ -62,21 +77,6 @@ export default async function handler(req, res) {
     ORDER BY emptyhouse ASC;
   `;
   */
-    // クエリを作成
-         const query = `
-         SELECT 
-             地域 AS locationName,
-             SUM(空き家数) AS emptyhouse
-         FROM vacant_houses
-         WHERE 
-             腐朽破損有無 IN(${decayStatuses}) AND
-             住宅建て方 IN(${houseTypes}) AND 
-             建物構造 IN(${buildingTypes})
-         GROUP BY 地域
-         ORDER BY emptyhouse ASC;
-     `;
-
-
 
 console.log(query)
     const values = [houseType, buildingType, decayStatus];
