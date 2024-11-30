@@ -120,7 +120,7 @@ var svg = d3.select("#ChartArea").append("svg")
   .text(function(d) { return d3.format(",")(d.emptyhouse); })
   .style("opacity", 0)
   .transition()
-  .delay(2250)//アニメーションにあわせて変更 by teltel
+  .delay(2000)//アニメーションにあわせて変更 by teltel
   .duration(500)
   .style("opacity", 1) 
   .on("end", function() { // transitionの終了後に実行
