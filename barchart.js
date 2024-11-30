@@ -106,7 +106,7 @@ var svg = d3.select("#ChartArea").append("svg")
   .attr("height", y.bandwidth())  // 最終的な高さを設定
   .attr("y", function(d) { return y(d.locationName); }) // 最終的なy位置
   .attr("fill", "url(#barGradient)")  // グラデーションを適用
-  .delay(function(d, i) { return i * 150; })  // 各棒グラフの開始を遅らせる（200msずつ）
+  .delay(function(d, i) { return i * 100; })  // 各棒グラフの開始を遅らせる（100msずつ）
   .attr("width", function(d) { return x(d.emptyhouse); });  // 横幅を設定
 
   // バーの上に実際の値を表示
