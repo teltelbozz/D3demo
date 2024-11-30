@@ -21,6 +21,7 @@ export default async function handler(req, res) {
     }
 
     // クエリを実行して集計データを取得
+    /*
     const query = `
       SELECT 
         地域 AS locationName,
@@ -33,7 +34,8 @@ export default async function handler(req, res) {
       GROUP BY 地域
       ORDER BY emptyhouse ASC;
     `;
-/*
+    */
+
     const query = `
     SELECT 
       地域 AS locationName,
@@ -46,12 +48,13 @@ export default async function handler(req, res) {
     GROUP BY 地域
     ORDER BY emptyhouse ASC;
   `;1
-*/
+
 
 console.log(query)
     const values = [houseType, buildingType, decayStatus];
-    //const result = await pool.query(query, values);
-    const result = await pool.query(query);
+    const result = await pool.query(query, values);
+    console.log(values);
+    console.log(pool);
 
     // 必要な形式にデータを整形
     const formattedResult = result.rows.map(row => ({
