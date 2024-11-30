@@ -4,16 +4,16 @@
 
 function load_bar_chart (selector)
 {
-    var maxdomain = 100000
+    var maxdomain = 300000
 
     //document.getElementById('fetchData').addEventListener('click', () => {
-      const houseType = document.getElementById('houseType').value;
-      const buildingType = document.getElementById('buildingType').value;
-      const decayStatus = document.getElementById('decayStatus').value;
+      let houseType = document.getElementById('houseType').value;
+      let buildingType = document.getElementById('buildingType').value;
+      let decayStatus = document.getElementById('decayStatus').value;
 
-      console.log(houseType);
-      console.log(buildingType);
-      console.log(decayStatus);
+      if(houseType === "（すべて）" || buildingType === "（すべて）"){
+        maxdomain = 300000
+      }
 
       // パラメータをエンコードしてAPIに送信
       const apiEndpoint = `https://d3demo.vercel.app/api/vacant-houses-data?houseType=${encodeURIComponent(houseType)}&buildingType=${encodeURIComponent(buildingType)}&decayStatus=${encodeURIComponent(decayStatus)}`;
