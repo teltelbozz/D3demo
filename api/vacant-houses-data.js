@@ -47,7 +47,10 @@ export default async function handler(req, res) {
     ORDER BY emptyhouse ASC;
   `;1
 */
+
+console.log(query)
     const values = [houseType, buildingType, decayStatus];
+    
     console.error(values)
     console.log(values)
     const result = await pool.query(query, values);
