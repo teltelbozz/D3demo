@@ -20,6 +20,21 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required query parameters' });
     }
 
+    // "すべて" の処理
+    const houseTypes = houseType === "(すべて)"
+        ? "'一戸建','長屋建','共同住宅','その他'" // すべてのオプション
+        : `$1`; // プレースホルダを使用
+
+    const buildingTypes = buildingType === "(すべて)"
+        ? "'木造','鉄骨造','鉄筋コンクリート造'" // 仮の例: 建物構造のすべてのオプション
+        : `$2`;
+
+    const decayStatuses = decayStatus === "(すべて)"
+        ? "'腐朽あり','腐朽なし'" // 仮の例: 腐朽破損のすべてのオプション
+        : `$3`;
+
+
+
     // クエリを実行して集計データを取得
     /*
     const query = `
@@ -35,7 +50,7 @@ export default async function handler(req, res) {
       ORDER BY emptyhouse ASC;
     `;
     */
-
+/*
     const query = `
     SELECT 
       地域 AS locationName,
@@ -48,13 +63,27 @@ export default async function handler(req, res) {
     GROUP BY 地域
     ORDER BY emptyhouse ASC;
   `;
+  */
+    // クエリを作成
+         const query = `
+         SELECT 
+             地域 AS locationName,
+             SUM(空き家数) AS emptyhouse
+         FROM vacant_houses
+         WHERE 
+             腐朽破損有無 IN(${decayStatuses}) AND
+             住宅建て方 IN(${houseTypes}) AND 
+             建物構造 IN(${buildingTypes})
+         GROUP BY 地域
+         ORDER BY emptyhouse ASC;
+     `;
+
 
 
 console.log(query)
     const values = [houseType, buildingType, decayStatus];
     const result = await pool.query(query, values);
     console.log(values);
-    console.log(pool);
 
     // 必要な形式にデータを整形
     const formattedResult = result.rows.map(row => ({
