@@ -41,9 +41,9 @@ export default async function handler(req, res) {
            SUM(空き家数) AS emptyhouse
        FROM vacant_houses
        WHERE 
-           腐朽破損有無 = ANY($1) AND
-           住宅建て方 = ANY($2) AND 
-           建物構造 = ANY($3)
+           腐朽破損有無 = ANY($3) AND
+           住宅建て方 = ANY($1) AND 
+           建物構造 = ANY($2)
        GROUP BY 地域
        ORDER BY emptyhouse ASC;
    `;
