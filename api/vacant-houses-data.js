@@ -22,17 +22,13 @@ export default async function handler(req, res) {
 
     // "すべて" の処理
        // 選択肢が "(すべて)" の場合、全ての項目を配列として処理
-    const houseTypes = houseType === "(すべて)"
+    const houseTypes = houseType === "（すべて）"
        ? ['一戸建', '長屋建', '共同住宅', 'その他']
        : [houseType];
 
-   const buildingTypes = buildingType === "(すべて)"
-       ? ['木造', '鉄骨造', '鉄筋コンクリート造'] // 仮の例
+   const buildingTypes = buildingType === "（すべて）"
+       ? ['木造', '非木造'] // 仮の例
        : [buildingType];
-
-   const decayStatuses = decayStatus === "(すべて)"
-       ? ['腐朽あり', '腐朽なし'] // 仮の例
-       : [decayStatus];
 
    // クエリの構築
    const query = `
