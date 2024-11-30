@@ -47,7 +47,7 @@ export default async function handler(req, res) {
       建物構造 IN($2)
     GROUP BY 地域
     ORDER BY emptyhouse ASC;
-  `;1
+  `;
 
 
 console.log(query)
