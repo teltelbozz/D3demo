@@ -241,19 +241,6 @@ function displayData(localName) {
     // すべての都道府県の色を更新
     d3.selectAll("path")
       .transition()
-      .delay(function (d) {
-        // データが不正なら遅延なし
-        if (!d || !d.properties) return 0;
-    
-        // 現在の都道府県の名前
-        const locationName = d.properties.name_local;
-    
-        // ランキング内での位置を取得（見つからなければ 0）
-        const rankIndex = rankedLocations.indexOf(locationName);
-    
-        // ランキングに基づいて遅延を設定
-        return rankIndex >= 0 ? rankIndex * 100 : 0; // ランク順に10ms間隔で遅延
-      })
       .duration(1000)
       .attr("fill", function (d) {
         // データが不正なら白
@@ -278,9 +265,22 @@ function displayData(localName) {
         // ランキング内での位置を取得（見つからなければ -1）
         const rankIndex = rankedLocations.indexOf(locationName);
        
-        // 透過率を計算
-        return rankIndex >= 0 ? rankIndex/(rankedLocations.length-1) : 1;
+        // 透過率を計算//計算式に意味はない。様子見な方適当に調整
+        return rankIndex >= 0 ? (rankIndex/(rankedLocations.length-1))+0.2 : 1;
 
+      })
+      .delay(function (d) {
+        // データが不正なら遅延なし
+        if (!d || !d.properties) return 0;
+    
+        // 現在の都道府県の名前
+        const locationName = d.properties.name_local;
+    
+        // ランキング内での位置を取得（見つからなければ 0）
+        const rankIndex = rankedLocations.indexOf(locationName);
+    
+        // ランキングに基づいて遅延を設定
+        return rankIndex >= 0 ? rankIndex * 100 : 0; // ランク順に10ms間隔で遅延
       });
     
   }
